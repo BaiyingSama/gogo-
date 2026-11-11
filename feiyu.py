@@ -96,13 +96,23 @@ def _key() -> str | None:
         v = os.environ.get(env)
         if v:
             return v.strip()
+    # key.json 的写法各家不一样，这里都认：
+    #   {"key": "sk-..."}  /  {"deepseek": "sk-..."}  /  "sk-..."  /  任意单个字符串值
     try:
         with open(KEY_FILE, encoding="utf-8-sig") as f:
             d = json.load(f)
         if isinstance(d, str):
             return d.strip() or None
-        k = (d or {}).get("key")
-        return str(k).strip() if k else None
+        if isinstance(d, dict):
+            for k in ("key", "api_key", "apikey", "deepseek", "token"):
+                v = d.get(k)
+                if isinstance(v, str) and v.strip():
+                    return v.strip()
+            # 兜底：长得像 key 的那个值
+            for v in d.values():
+                if isinstance(v, str) and v.strip().startswith("sk-"):
+                    return v.strip()
+        return None
     except Exception:  # noqa: BLE001
         return None
 
