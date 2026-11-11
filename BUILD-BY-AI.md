@@ -197,7 +197,7 @@ FEIYU_HOME=/tmp/t1  python feiyu.py
 
 ---
 
-## 6. 七个坑（每一个我都真踩过，写清怎么发现的）
+## 6. 八个坑（每一个我都真踩过，写清怎么发现的）
 
 **坑 1：Windows 上写文件带 BOM。**
 `Set-Content -Encoding UTF8` 会加 BOM，解析器把 `﻿第一行` 当不认识的内容跳过。
