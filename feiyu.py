@@ -82,7 +82,9 @@ _ABILITY_NAMES = {
     "_keep_memory": "留一句给自己的话",
 }
 
-ROUND_MINUTES = 5          # 一轮（一个目标）占几分钟
+# 注意：这里原来有个 ROUND_MINUTES=5，用来「每定一个目标扣 5 分钟」。
+# 后来改成按墙上时间算（_left_by_clock），它就再没被用到了 —— 但打印里还在念它，
+# 于是它一边报「会扣 5 分钟」，一边其实按秒记账。删掉，免得后来的人照着错的理解改。
 MAX_STEPS = 6              # 一个目标最多拆几步，防止绕进死循环
 API = "https://api.deepseek.com/v1/chat/completions"
 MODEL = "deepseek-chat"
@@ -2730,7 +2732,7 @@ def once() -> None:
     if r.get("refuse"):
         print("  收工（不扣时间）")
     elif r.get("goal"):
-        print(f"  目标：{r['goal']}（会扣 {ROUND_MINUTES} 分钟）")
+        print(f"  目标：{r['goal']}（预算按墙上时间算，不是按目标扣）")
     elif r.get("error"):
         print("  解析失败 → 当作没事干")
     else:
