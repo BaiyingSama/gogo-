@@ -1,0 +1,18 @@
+﻿# 家的数据永远不进仓库
+shared/
+data/
+notes/
+diary/
+logs/
+archive/
+
+# key
+key.json
+*.key
+
+# python
+__pycache__/
+*.pyc
+
+# 备份
+*.bak-*
