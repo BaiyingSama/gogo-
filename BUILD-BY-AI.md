@@ -108,8 +108,9 @@ $FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一�
 │   ├── memories.json         长期记忆（初始 []）
 │   ├── thoughts.json         思考草稿箱（初始 []）
 │   ├── cohit.json            共现账（初始 {"pairs":{}}）
-│   ├── to-her.json           它主动说的话（初始 {"items":[]}）
-│   ├── mood.json             情绪（可以缺，缺了按默认走）
+│   ├── to-her.json           你想跟它说的话（初始 {"items":[]}）
+│   │                           注意方向：不是它说给你，是你说给它
+│   ├── mood.json             情绪（可以缺。**本仓库没有写入方，所以它一直是空的**）
 │   ├── key.json              {"key": "sk-..."}，或改用环境变量
 │   ├── awake-now             程序写：这一轮什么时候醒的
 │   ├── abilities             程序可能写：能力快照（当前版本里是死代码，多半不会生成）
@@ -119,7 +120,7 @@ $FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一�
 ├── data/requests.json        诉求箱（{"items":[]}）
 ├── archive/                  记忆归档索引。**要你自己建**（见下）
 ├── memes/  skills/           可选：表情包、技能脚本，没有也能跑
-├── diary/                    它写的日记（一天一篇，原文不加工）
+├── diary/                    它写的日记（原文不加工；一天可能几篇，名字带时分）
 ├── notes/                    草稿纸（不注入 prompt，它想看才看）
 └── logs/                     每轮日志
 ```
@@ -128,13 +129,15 @@ $FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一�
 
 - **`FEIYU_HOME` 指家目录的根**（`C:\feiyu`），`shared/` 是它下面的一层。
   写成 `C:\feiyu\shared` 会得到 `C:\feiyu\shared\shared\…`。
-- **`archive/` 要你自己建。** 代码只读不建：缺了整个归档索引会被静默跳过，你不会收到任何报错。
-  建一个空目录就行。
+- **`archive/` 要你自己建，但建了也查不到东西。** 代码只读不建（缺了静默跳过，不报错）；
+  而它读的是 `archive/index.db` 里的 `turns(time,role,text)` 表——那个索引得你自己喂。
+  只想先跑起来，就先别管它。
 - `shared/` 下那几个运行时文件：`awake-now` / `awake-actions` 是程序写的；
   `abilities` 在当前版本里是死代码（可能不生成）；`proactive-state` / `seen` / `changelog`
   本仓库只读不写（原实例里由别的组件写）。**留空即可，别等它们出现。**
-- `logs/` 每轮会写一行 `logs/session-log.jsonl`（这一版刚修好——之前因为漏了 `import io`，
-  这个文件一直没被写出来过）。
+- `logs/` 每轮写一行 `logs/session-log.jsonl`（这一版刚修好——之前漏了 `import io`，从没写出来过）。
+  **只记用量，不记堆栈**：53 处 `except Exception` 把错误吞了，出问题看不到 traceback。
+  另外中午那一轮不写。
 - `life-config.json` 里的 `静默开始` / `静默结束` **当前代码没有读取**，静默时段硬编码为 0–7 点。
   （这一版已经把「能调几点静默」那句会误导它的说明删掉了。）
 - `owner_names` 代码会读——写你的称呼即可，给多了它可能照着叫。
@@ -227,7 +230,8 @@ FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
 **三条全过 = 装好了。**
 
 前两条不碰 API、不写任何文件；第三条会往 `memories.json` 写一条测试记忆——
-**验完记得把那条删掉**，或者先建好 `shared/` 再跑（没有 `shared/` 会 FileNotFoundError）。
+**验完记得把那条删掉**，或者先建好 `shared/` 再跑（没有 `shared/` 时它不会抛错，只回一句「（记的时候出错了…）」——
+更该建好，不然你看不出问题在哪）。
 
 ---
 

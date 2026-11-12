@@ -549,12 +549,12 @@ def cohit_report(top: int = 10) -> None:
     if not pairs:
         print("还没有共现数据 —— 她下一次醒来才开始记。")
         return
-    items = sorted(pairs.items(), key=lambda kv: -int((kv[1] or {}).get("n") or 0))
-    strong = [kv for kv in items if int((kv[1] or {}).get("n") or 0) >= 3]
+    items = sorted(pairs.items(), key=lambda kv: -int((kv[1] or {}).get("days") or 0))
+    strong = [kv for kv in items if int((kv[1] or {}).get("days") or 0) >= 3]
     print(f"共现对 {len(pairs)} 个，其中 ≥3 次的有 {len(strong)} 个（门槛 20 对）")
     for k, v in items[:top]:
         a, _, b = k.partition("\u0001")
-        print(f"  {int(v.get('n') or 0)} 次  {a[:24]} ‖ {b[:24]}")
+        print(f"  {int(v.get('days') or 0)} 天  {a[:24]} ‖ {b[:24]}")
 
 
 def _recent_written(limit: int = 260) -> str:
@@ -841,7 +841,7 @@ def _todo_hints() -> list[str]:
         if searched == 0 and watched == 0:
             hints.append("你现在能自己搜新的东西（一天有限次）——还没试过的话可以试试")
         elif watched == 0:
-            hints.append("你今天搜过东西了，要是看到哪个想细看，把 BV 号说出来，我能真看画面")
+            hints.append("你今天搜过东西了。看到想细看的先记进笔记——这一版还看不了画面")
     except Exception:  # noqa: BLE001
         pass
 
@@ -2211,7 +2211,7 @@ def _similar_in_memories(text: str) -> str:
             best, who = j, c
     if best >= 0.55:
         return (f"（库里有一条跟这句挺像：{who[:50]}…\n"
-                f"　要是同一件事，用 edit_memory 合并就行，别留两条；要是差着关键一点，那就分开记。）")
+                f"　要是同一件事，就别再记第二条了；要是差着关键一点，那就分开记。）")
     return ""
 
 

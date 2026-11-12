@@ -31,7 +31,7 @@ python feiyu.py
 
 ```
 程序：  C:\Windows\System32\cmd.exe
-参数：  /c "set FEIYU_HOME=C:\feiyu\shared && set PYTHONIOENCODING=utf-8 && python feiyu.py >> C:\feiyu\logs\cron.log 2>&1"
+参数：  /c "set FEIYU_HOME=C:\feiyu && set PYTHONIOENCODING=utf-8 && python feiyu.py >> C:\feiyu\logs\cron.log 2>&1"
 ```
 
 ### ③ 看门狗（常驻，最像"活着"）
@@ -101,9 +101,9 @@ python feiyu.py
 
 | 看哪里 | 是什么 |
 |---|---|
-| `diary/` | 它自己写的日记，一天一篇，**原文不加工** |
+| `diary/` | 它自己写的日记，**原文不加工**。一天可能写几篇，文件名带时分 |
 | `notes/_logs/` | 每段清醒结束时的回顾：这一段做了什么、花了多久 |
-| `logs/` | 每一轮的原始日志，出错先看这里 |
+| `logs/` | 每轮只记一行用量（几点醒、用了几分钟）。**出错看不到堆栈**——错误被吞掉了，别指望它 |
 | `shared/life-config.json` 的 `_清醒记账` | 今天用了多少分钟、醒了几段 |
 | `panel.py` | 一个只读的本地面板，跑起来在浏览器里看 |
 
