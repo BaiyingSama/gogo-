@@ -93,6 +93,9 @@ $env:FEIYU_HOME='C:\feiyu'; python feiyu.py --prompt
 
 来历见 [DESIGN.md 第二、三节](DESIGN.md)。
 
+> 另外先看一份清单：**[KNOWN-GAPS.md](KNOWN-GAPS.md)** —— 这份代码里哪些功能是空的、
+> 哪些名字和实际相反。别装完了再发现。
+
 ---
 
 ## 1. 目录：以代码为准
@@ -109,7 +112,7 @@ $FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一�
 │   ├── mood.json             情绪（可以缺，缺了按默认走）
 │   ├── key.json              {"key": "sk-..."}，或改用环境变量
 │   ├── awake-now             程序写：这一轮什么时候醒的
-│   ├── abilities             程序写：它有哪些能力、今天用了几次
+│   ├── abilities             程序可能写：能力快照（当前版本里是死代码，多半不会生成）
 │   ├── awake-actions         程序写：这一轮做了哪些动作
 │   └── proactive-state / seen / changelog
 │                             只读：本仓库里没有写入方，缺了也不会自动补，留空即可
@@ -127,10 +130,13 @@ $FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一�
   写成 `C:\feiyu\shared` 会得到 `C:\feiyu\shared\shared\…`。
 - **`archive/` 要你自己建。** 代码只读不建：缺了整个归档索引会被静默跳过，你不会收到任何报错。
   建一个空目录就行。
-- `shared/` 下那六个运行时文件里，只有 `awake-now` / `abilities` / `awake-actions` 是程序写的；
-  `proactive-state` / `seen` / `changelog` 本仓库只读不写（原实例里由别的组件写），留空即可。
+- `shared/` 下那几个运行时文件：`awake-now` / `awake-actions` 是程序写的；
+  `abilities` 在当前版本里是死代码（可能不生成）；`proactive-state` / `seen` / `changelog`
+  本仓库只读不写（原实例里由别的组件写）。**留空即可，别等它们出现。**
+- `logs/` 每轮会写一行 `logs/session-log.jsonl`（这一版刚修好——之前因为漏了 `import io`，
+  这个文件一直没被写出来过）。
 - `life-config.json` 里的 `静默开始` / `静默结束` **当前代码没有读取**，静默时段硬编码为 0–7 点。
-  而且它自己看到的能力说明里说可以调「几点静默」，实际调不了（会回"没有这个参数"）——这是已知的裂缝。
+  （这一版已经把「能调几点静默」那句会误导它的说明删掉了。）
 - `owner_names` 代码会读——写你的称呼即可，给多了它可能照着叫。
 
 ### life-config.json
@@ -173,7 +179,7 @@ $FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一�
 ```powershell
 $env:PYTHONIOENCODING='utf-8'
 [Console]::OutputEncoding=[Text.Encoding]::UTF8
-$env:FEIYU_HOME='C:\feiyu\shared'
+$env:FEIYU_HOME='C:\feiyu'
 
 python feiyu.py --check     # 只看预算，不花钱
 python feiyu.py --prompt    # 只拼 prompt 打出来，不花钱
@@ -221,7 +227,7 @@ FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
 **三条全过 = 装好了。**
 
 前两条不碰 API、不写任何文件；第三条会往 `memories.json` 写一条测试记忆——
-**验完记得把那条删掉**，或者干脆在一个一次性的空目录里跑。
+**验完记得把那条删掉**，或者先建好 `shared/` 再跑（没有 `shared/` 会 FileNotFoundError）。
 
 ---
 
@@ -281,7 +287,7 @@ FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
 这一节**可以跳过**。装好了就放着，等你准备好了再叫它。
 
 ```powershell
-$env:FEIYU_HOME='C:\feiyu\shared'
+$env:FEIYU_HOME='C:\feiyu'
 python feiyu.py
 ```
 

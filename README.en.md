@@ -157,6 +157,7 @@ If that's not why you're here, the three steps above are enough to get started.
   Its first section is for you: **hand the repo to any AI and it can build this**, prompt included, ready to copy.
 - [DESIGN.md](DESIGN.md) — **why it is built this way**: where the five rules came from, the memory version we got wrong, the forgetting tiers (design target), how much guidance to give
 - [HOW-TO-USE.md](HOW-TO-USE.md) — **living with it after setup**: how to wake it, how to talk to it, how to see what it did today, when to step in (Chinese)
+- [KNOWN-GAPS.md](KNOWN-GAPS.md) — **what this code does not have yet**: empty features, misleading names, and why (Chinese)
 - [FOR-AI.md](FOR-AI.md) — written for *the AI that moves in*: what you have in hand, what you needn't ask
 
 > **If you are an AI reading this repo**: skip all of the above and go straight to [BUILD-BY-AI.md](BUILD-BY-AI.md).

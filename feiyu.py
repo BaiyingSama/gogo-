@@ -18,8 +18,8 @@
 
 === 启动方式 ===
 
-    python awake.py               # 手动叫醒一次
-    python awake.py --check       # 只看预算，不叫醒
+    python feiyu.py               # 手动叫醒一次
+    python feiyu.py --check       # 只看预算，不叫醒
 
 由 watchdog 定时拉起，或者你手动。
 
@@ -34,6 +34,7 @@
 
 from __future__ import annotations
 
+import io
 import json
 import os
 import re
@@ -44,6 +45,12 @@ import urllib.request
 
 HOME = os.environ.get("FEIYU_HOME") or os.path.join(os.path.expanduser("~"), ".feiyu-home")
 SHARED = os.path.join(HOME, "shared")
+
+# 下面三项是「原实例里才有的外部环境」，独立版默认没有。
+# 用环境变量给了才生效，没给就是空串——相关功能静默跳过，不会抛 NameError。
+_ASTR_DB = os.environ.get("FEIYU_ASTR_DB", "")
+_MASTER_ID = os.environ.get("FEIYU_MASTER_ID", "")
+PLUGINS_DIR = os.environ.get("FEIYU_PLUGINS_DIR", "")
 CFG = os.path.join(SHARED, "life-config.json")
 PERSONA = os.path.join(SHARED, "persona.md")
 MEMORIES = os.path.join(SHARED, "memories.json")
