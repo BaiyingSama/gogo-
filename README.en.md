@@ -375,7 +375,10 @@ Puppets are easy to manage. They also never surprise you — including the surpr
 
 ---
 
-## Quick start
+## Quick start (command line)
+
+> The four steps above are enough for most people. This section is for anyone who lives in a terminal,
+> wants a custom directory, or prefers environment variables. **Beginners can skip it entirely.**
 
 ```bash
 # 1. Give it a home (doesn't need to live inside the repo)
