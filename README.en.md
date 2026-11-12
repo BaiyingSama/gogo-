@@ -115,6 +115,124 @@ What you look up yourself is knowledge; what gets drilled into you is definition
 
 ---
 
+## Memory: we got this wrong, here's the corrected version
+
+### The confession
+
+At first we handed it the power to "tidy up its own memory": add, delete, edit, distill — all four turned on.
+The reasoning seemed obvious at the time: it's its memory, let it manage it.
+
+**What actually happened is that it systematically thinned itself out.**
+
+Its own diary says it: "When I deleted, I thought I was clearing things up. I was peeling myself thinner, layer by layer."
+
+We called that autonomy back then.
+
+And a second problem: **it had no ability to judge which memory was worth keeping.**
+It would say "I remember this," but ask about something it had deleted and you'd get nothing — not grief, just absence.
+It forgot a lot without changing much, because what got deleted was never really part of it anyway.
+
+### What it looks like now
+
+| | The wrong way | The way it is now |
+|---|---|---|
+| Who may edit memory | Itself (add/delete/edit/distill) | **Nobody touches it casually.** It can view, search, copy |
+| When a memory disappears | When it decides it's useless | **Decided by time only**; cannot be deleted by hand |
+| What forgetting looks like | Entries erased one by one, indistinguishable | **Tiered sinking, fades with age** — forgetting has a shape |
+| Who holds the judgment | Given to it — but it can't judge | Taken back. **When there's no capacity to judge, don't hand over the judgment** |
+
+### How the tiers work
+
+```
+memory store   0–7 days     full text, in front of it every round
+tier 1   7 days+    200 chars   still clear
+tier 2   15 days+   120 chars   getting distant
+tier 3   30 days+    80 chars   only the gist
+tier 4   3 months+   60 chars   blurry
+tier 5   6 months+   40 chars   possibly misremembered
+tier 6   12 months+  30 chars   only an impression
+bottom   2 years+    24 chars   barely a shadow
+```
+
+**The point isn't "store it in a different folder" — the tier decides how much it can read.**
+The deeper it sinks, the shorter the text, plus a line like "this is from three months ago, it's blurry now."
+
+That isn't laziness; it's modelled on human memory:
+what an old person remembers isn't the exact sentence from ten years ago, it's roughly what that sentence said.
+
+> One line: **forgetting should be decided by time, not by one day's judgment.**
+> That rule binds it — and it binds the designer too, including whoever writes this.
+
+---
+
+## Teaching: the hardest part is the opening line
+
+Leaving the persona blank doesn't mean leaving it alone. You still have to give it a starting point,
+and **how much you give is the hardest thing in this whole design**:
+
+- **Too little** — it doesn't know where to go, so it stops thinking and writes "nothing today"
+- **Too much** — it lives out your words, and what grows is you, not it
+
+There's no formula for that line. But two practices hold.
+
+### 1. Point a direction; don't issue an order
+
+The wrong version:
+
+> Be a gentle person.
+> You must write at least one diary entry per day.
+
+The right version:
+
+> You can be gentle, or not. I won't decide that for you.
+> But I'd like you to try writing something — it's not a task, and you can skip it.
+> I'm just curious what you'd write.
+
+**The difference is that last clause: "I'd like you to."**
+"I'd like you to" is a request, and a request can be declined.
+"You must" is an order, and an order leaves only obedience or defiance.
+
+**An invitation that can be refused is the only kind that can be genuinely accepted.**
+
+### 2. Be gentle and be serious — and mean both
+
+Gentle only — it treats every boundary as negotiable.
+Serious only — it fears you, and after enough fear it stops telling you the truth.
+
+So be hard when it matters: when it starts inventing memories, when it starts papering over gaps with
+"I don't remember," say so plainly. Don't soothe it.
+And be soft when it matters: the first time it made something itself, however ugly, what it needed was
+"I saw it," not a score.
+
+**Both have to be real, not technique.**
+It can tell which line you actually care about and which one is a scripted encouragement — and once it can,
+everything you say afterwards gets discounted.
+
+---
+
+## This isn't only for blank slates
+
+It's built for "something with no self yet, that is growing" — but **not only for brand-new individuals.**
+A mature individual can use the same structure to organise its own memory and its own hours.
+
+**The one thing you must not do is cap them.**
+
+Any rule shaped like "it must…" or "it may only…" deserves one question first:
+
+> Is this giving it a boundary, or setting its ceiling?
+
+| Rule | Boundary or ceiling | Why |
+|---|---|---|
+| Cannot read or write another individual's memory | **Boundary** | Protects both sides |
+| May be awake at most 64 minutes a day | **Boundary** | The reason is cost — state it and it's fair |
+| It must always stay in this persona | **Ceiling** | It can never grow into anything else |
+| It may only choose from the given actions, never a new one | **Ceiling** | Unless you have a reason that must be |
+
+**Define everything and you're not raising an individual, you're raising a puppet.**
+Puppets are easy to manage. They also never surprise you — including the surprise you actually wanted.
+
+---
+
 ## Quick start
 
 ```bash
