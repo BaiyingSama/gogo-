@@ -1,4 +1,4 @@
-﻿# 家的数据永远不进仓库
+# 家的数据永远不进仓库
 shared/
 data/
 notes/
@@ -16,3 +16,4 @@ __pycache__/
 
 # 备份
 *.bak-*
+panel.html

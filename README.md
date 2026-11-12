@@ -56,6 +56,9 @@ cp examples/*.md examples/*.json "$FEIYU_HOME/shared/"
 然后想看它过得好不好：`run-awake.cmd --check`（还剩多少时间）、
 或者直接翻 `你的家\diary\` 和 `你的家\notes\`。
 
+**想看它过得怎么样，跑一下 `python panel.py`**，浏览器打开 `http://127.0.0.1:6188`。
+那一页只读、没有按钮，看四件事：它醒着还是睡着、今天写了什么、你们最近说过什么、它还记得多少。
+
 ---
 
 ## 别人的第一反应通常是这几个问题
