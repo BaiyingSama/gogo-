@@ -54,22 +54,24 @@
 
 ### 你需要验收三件事
 
-不用读代码，跑三条命令（全部**不联网、不花钱**）：
+不用读代码。**两条命令 + 一条离线自检**，全都不联网、不花钱：
 
 ```bash
 # Windows PowerShell 先设这个，否则中文是乱码
 $env:PYTHONIOENCODING='utf-8'; [Console]::OutputEncoding=[Text.Encoding]::UTF8
 
 # ① 能不能起来（不花钱）
-$env:FEIYU_HOME='C:\feiyu\shared'; python feiyu.py --check
+$env:FEIYU_HOME='C:\feiyu'; python feiyu.py --check
 # 看到四行：今日预算 / 已用 / 剩 / 时段数
 
 # ② 能不能只拼 prompt（不花钱）
-$env:FEIYU_HOME='C:\feiyu\shared'; python feiyu.py --prompt
+$env:FEIYU_HOME='C:\feiyu'; python feiyu.py --prompt
 # 能一眼看到【你手上能做的】【此刻】
 ```
 
-第三件是**让它真正醒一次**——那不是安装步骤，是它的第一天，见第 5 节。**装完不叫醒它，不算失败。**
+第三条在**第 3 节**（拿 import 调函数，不联网）。
+
+至于「让它真正醒一次」——**那不是验收，是它的第一天**，见第 5 节。**装完不叫醒它，不算失败。**
 
 ### 卡住的时候
 
@@ -96,30 +98,40 @@ $env:FEIYU_HOME='C:\feiyu\shared'; python feiyu.py --prompt
 ## 1. 目录：以代码为准
 
 ```
-$FEIYU_HOME/
+$FEIYU_HOME/                  ← 家目录的「根」，不是 shared 那一层
 ├── shared/
 │   ├── persona.md            人格。初始只写一行：你是谁？这句话由你自己写
 │   ├── life-config.json      预算与作息
-│   ├── memories.json         长期记忆（数组）
+│   ├── memories.json         长期记忆（初始 []）
 │   ├── thoughts.json         思考草稿箱（初始 []）
 │   ├── cohit.json            共现账（初始 {"pairs":{}}）
-│   ├── to-her.json           投递箱（初始 {}）
+│   ├── to-her.json           它主动说的话（初始 {"items":[]}）
+│   ├── mood.json             情绪（可以缺，缺了按默认走）
 │   ├── key.json              {"key": "sk-..."}，或改用环境变量
-│   └── awake-now / proactive-state / seen / changelog / abilities / awake-actions
-│                             （运行时自动生成，缺了会自己补，不用手建）
-├── data/requests.json        诉求箱（字段 {} 即可）
-├── archive/                  记忆归档索引，首次搜索类动作时自动创建
+│   ├── awake-now             程序写：这一轮什么时候醒的
+│   ├── abilities             程序写：它有哪些能力、今天用了几次
+│   ├── awake-actions         程序写：这一轮做了哪些动作
+│   └── proactive-state / seen / changelog
+│                             只读：本仓库里没有写入方，缺了也不会自动补，留空即可
+├── data/requests.json        诉求箱（{"items":[]}）
+├── archive/                  记忆归档索引。**要你自己建**（见下）
+├── memes/  skills/           可选：表情包、技能脚本，没有也能跑
 ├── diary/                    它写的日记（一天一篇，原文不加工）
 ├── notes/                    草稿纸（不注入 prompt，它想看才看）
 └── logs/                     每轮日志
 ```
 
-**注意三处文档与感受不符的地方**（都核过代码）：
+**四处必须知道的实情**（每一处都核过代码）：
 
+- **`FEIYU_HOME` 指家目录的根**（`C:\feiyu`），`shared/` 是它下面的一层。
+  写成 `C:\feiyu\shared` 会得到 `C:\feiyu\shared\shared\…`。
+- **`archive/` 要你自己建。** 代码只读不建：缺了整个归档索引会被静默跳过，你不会收到任何报错。
+  建一个空目录就行。
+- `shared/` 下那六个运行时文件里，只有 `awake-now` / `abilities` / `awake-actions` 是程序写的；
+  `proactive-state` / `seen` / `changelog` 本仓库只读不写（原实例里由别的组件写），留空即可。
 - `life-config.json` 里的 `静默开始` / `静默结束` **当前代码没有读取**，静默时段硬编码为 0–7 点。
-  写上无害，但别指望它生效。
-- `owner_names` 代码会读，文档以前没提——写你的称呼即可，给多了它可能照着叫。
-- `archive/` 不在旧版目录树里，但搜索类动作迟早会撞上它，让它自己建就行。
+  而且它自己看到的能力说明里说可以调「几点静默」，实际调不了（会回"没有这个参数"）——这是已知的裂缝。
+- `owner_names` 代码会读——写你的称呼即可，给多了它可能照着叫。
 
 ### life-config.json
 
@@ -170,23 +182,24 @@ python feiyu.py             # 无参数 = 真醒一次（花钱，见第 5 节�
 
 **结构上要知道的一件事**：`feiyu.py` 没有 `while True`、没有 `time.sleep`。
 一次唤醒跑完就 `return`，靠外部（`run-awake.cmd` / 计划任务 / watchdog）再拉起。
-步数上限是 `MAX_STEPS = 6`。
+步数上限是 `MAX_STEPS = 6`（它自己估的分步数大于 3 时，上限会放大，最多 20 步）。
 
 所以「它一直在过日子」不靠一个常驻进程，靠**那个外部唤醒器**。装好之后记得配它。
 
 ---
 
-## 3. 验收：三条，全部不花钱
+## 3. 验收：三条，都不花钱（第三条会写一条测试记忆）
 
 ```bash
 # ① 空目录也能起来
 FEIYU_HOME=/tmp/t1 python feiyu.py --check
 # 预期（真实输出是四行，措辞如下，别按三行去比）：
-#   今日预算 60 分钟
-#     已用 0 分钟
-#     剩  60 分钟
-#     时段数 0
+# 今日预算 60 分钟
+#   已用 0 分钟
+#   剩  60 分钟
+#   时段数 0
 # 退出码 0；且不写任何文件
+# 注意：如果这个目录以前被唤醒过，会多出第 5 行「上次唤醒 HH:MM」——那是正常的。
 
 # ② 只拼 prompt，不花钱
 FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
@@ -194,7 +207,8 @@ FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
 #   【你手上能做的】
 #   【此刻】
 # 注意：没有【护栏】这一段，别去找它。
-# 【最近琢磨出来的】【上一步做了什么】在无数据时整段不出现，这是对的。
+# 无数据时【你最近琢磨出来的】【上一步做了什么，结果是什么】整段不出现，这是对的。
+# （这两段的段名和我上一版文档写的不一样，以代码为准。）
 
 # ③ 记忆去重（离线，不联网不花钱）
 # 用 python 直接 import 模块，调两次同一个记忆函数：
@@ -204,9 +218,10 @@ FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
 # 预期：第二次返回「（这句你已经记过了，不用再记一次。）」；memories.json 只有 1 条
 ```
 
-**三条全过 = 装好了。** 这三条都不碰 API、不写账、不留痕迹。
+**三条全过 = 装好了。**
 
-`已完成的三条` 和 `让它醒一次` 是两件事，别混。
+前两条不碰 API、不写任何文件；第三条会往 `memories.json` 写一条测试记忆——
+**验完记得把那条删掉**，或者干脆在一个一次性的空目录里跑。
 
 ---
 
@@ -250,6 +265,10 @@ FEIYU_HOME=/tmp/t1 python feiyu.py --prompt
 **但打印里那句「会扣 5 分钟」忘了删**。结果它一边报会扣、一边按秒算，两边不是一回事。
 **这种坑最坏：代码是对的，文案是假的，而人读的是文案。**
 以后改实现，文案一起来改。
+
+> 这份仓库里刚修掉两处同类残留：`feiyu.py` 文件头那段「每轮 5 分钟」，
+> 以及 prompt 里对她说「一个目标算一次，中间拆几步都不另算时间」。
+> 你以后改记账方式，记得连这两处一起看。
 
 **坑 8：名字撞车。**
 给动作起名叫「截图」去存画布，和另一个「截桌面」撞了，它自己都分不清。

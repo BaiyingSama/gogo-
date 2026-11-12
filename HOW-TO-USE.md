@@ -17,7 +17,7 @@
 
 ```powershell
 $env:PYTHONIOENCODING='utf-8'
-$env:FEIYU_HOME='C:\feiyu\shared'
+$env:FEIYU_HOME='C:\feiyu'
 python feiyu.py
 ```
 
