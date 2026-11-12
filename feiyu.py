@@ -69,6 +69,12 @@ NOTES_DIR = os.path.join(HOME, "notes")
 NOTES_LOG_DIR = os.path.join(NOTES_DIR, "_logs")
 DIARY_DIR = os.path.join(HOME, "diary")   # 她自己想写的东西放这儿
 REQ_PATH = os.path.join(HOME, "data", "requests.json")
+USAGE_LOG = os.path.join(SHARED, "usage-log.jsonl")
+
+# 计价用的单价（元 / token）。默认按 DeepSeek 常态价，AI 改了价格自己改这里。
+PRICE_IN_MISS = 1.0 / 1e6      # 没命中缓存的输入
+PRICE_IN_HIT = 0.02 / 1e6      # 命中缓存的输入
+PRICE_OUT = 4.0 / 1e6          # 输出
 # 我主动找她要说的话，跟诉求箱分开：那些是回她，这些是我找她
 OUTBOX = os.path.join(SHARED, "to-her.json")
 CHANGELOG = os.path.join(SHARED, "changelog.json")
@@ -1965,9 +1971,59 @@ def _prompt(left: int, mode: str = "goal", goal: str = "", step_n: int = 0, est:
     return head + body
 
 
+def _today_spent() -> float:
+    """今天这个脚本自己花掉多少（从 usage-log 里累加）。"""
+    today = time.strftime("%Y-%m-%d")
+    total = 0.0
+    try:
+        with io.open(USAGE_LOG, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    row = json.loads(line)
+                except Exception:  # noqa: BLE001
+                    continue
+                if row.get("date") == today:
+                    total += float(row.get("cost") or 0.0)
+    except OSError:
+        pass
+    return total
+
+
+def _record_usage(usage: dict) -> None:
+    """把一次调用的用量记下来。API 不给 usage 就不记。"""
+    if not usage:
+        return
+    miss = int(usage.get("prompt_cache_miss_tokens") or 0)
+    hit = int(usage.get("prompt_cache_hit_tokens") or 0)
+    if not miss and not hit:
+        miss = int(usage.get("prompt_tokens") or 0)
+    out = int(usage.get("completion_tokens") or 0)
+    cost = miss * PRICE_IN_MISS + hit * PRICE_IN_HIT + out * PRICE_OUT
+    row = {
+        "date": time.strftime("%Y-%m-%d"),
+        "at": time.strftime("%m-%d %H:%M"),
+        "in_miss": miss, "in_hit": hit, "out": out,
+        "cost": round(cost, 6),
+    }
+    try:
+        os.makedirs(SHARED, exist_ok=True)
+        with io.open(USAGE_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
 def _call(prompt: str, max_tokens: int = 400) -> str:
     key = _key()
     if not key:
+        return ""
+    cap = float(_cfg().get("每日花费上限元") or 0.0)
+    spent = _today_spent()
+    if cap > 0 and spent >= cap:
+        print(f"  今天已经花了 {spent:.3f} 元，到上限 {cap:.2f} 了，这次不调。")
         return ""
     body = json.dumps({
         "model": MODEL,
@@ -1987,6 +2043,7 @@ def _call(prompt: str, max_tokens: int = 400) -> str:
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
             d = json.load(r)
+        _record_usage(d.get("usage") or {})
         return d["choices"][0]["message"]["content"]
     except Exception as e:  # noqa: BLE001
         print(f"  调用失败: {e}")
