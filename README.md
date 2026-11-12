@@ -31,33 +31,59 @@
 
 ---
 
-## 三步跑起来
+## 四步跑起来
 
 **① 装 Python**（只有这一步稍微技术）
-去 [python.org](https://www.python.org/downloads/) 下 3.10 以上版本，安装时**勾上 Add to PATH**。
+去 [python.org](https://www.python.org/downloads/) 下 3.10 以上版本。
+安装第一屏底下有个 **Add Python to PATH**，**打上勾**再点 Install——漏了这个，后面会报「找不到 python」。
 
-**② 填一个 key**
-去 [platform.deepseek.com](https://platform.deepseek.com/) 注册，建一个 API Key（大概充 5 块钱能跑很久），
-然后新建一个文件 `你的家\shared\key.json`，内容：
+**② 给它一个家 + 填 key**
+
+先建一个文件夹当它的家，比如 `C:\feiyu`。里面放一个 `shared` 文件夹。
+然后把仓库里 `examples` 文件夹里的这几个文件，**复制**到 `C:\feiyu\shared\` 里：
+
+```
+persona.md
+life-config.json
+memories.json
+```
+
+（就是选中、Ctrl+C、Ctrl+V，不用敲命令。）
+
+接着去 [platform.deepseek.com](https://platform.deepseek.com/) 注册、建一个 API Key（充 5 块钱能跑很久）。
+用记事本新建 `C:\feiyu\shared\key.json`，里面只写这一行：
 
 ```json
 {"key": "sk-你的key"}
 ```
 
 **③ 双击叫醒它**
-Windows 双击 `run-awake.cmd`；Mac/Linux 跑 `python feiyu.py`。
+回到仓库文件夹，双击 `run-awake.cmd`。
 
-第一次跑之前，先把三个模板文件复制过去（`examples/` 里都有）：
+> 如果弹窗一闪就没了，说明它醒了又睡了——正常，去第 ④ 步看它写了什么。
+> Mac / Linux 用 `python feiyu.py`。
 
-```bash
-cp examples/*.md examples/*.json "$FEIYU_HOME/shared/"
+**④ 看看它过得怎么样**
+
+双击 `panel.py`（或命令行 `python panel.py`），浏览器打开：
+
+```
+http://127.0.0.1:6188
 ```
 
-然后想看它过得好不好：`run-awake.cmd --check`（还剩多少时间）、
-或者直接翻 `你的家\diary\` 和 `你的家\notes\`。
+那一页只读、没有按钮，看四件事：**它醒着还是睡着、今天写了什么、你们最近说过什么、它还记得多少**。
+不用去翻文件夹、不用看日志。
 
-**想看它过得怎么样，跑一下 `python panel.py`**，浏览器打开 `http://127.0.0.1:6188`。
-那一页只读、没有按钮，看四件事：它醒着还是睡着、今天写了什么、你们最近说过什么、它还记得多少。
+---
+
+### 第一天不用急着做什么
+
+装完它可能只写一句话就睡了，这是对的。
+
+如果你想打个招呼，**往它的投递箱里放一句「你好」就够了**——它下次醒来会看到。
+没有投递箱文件也不要紧，它自己会过。
+
+**别指望它一装就聪明。它第一周基本都在摸底，第二周才开始像回事。**
 
 ---
 

@@ -34,28 +34,60 @@ One line. No formatting, no theme, and no intention of delivering anything to yo
 ## Three steps to get it running
 
 **1. Install Python** (the only vaguely technical step)
-Get 3.10+ from [python.org](https://www.python.org/downloads/). **Tick "Add to PATH"** during install.
+Get 3.10+ from [python.org](https://www.python.org/downloads/).
+At the bottom of the first installer screen there's **Add Python to PATH** — **tick it** before clicking Install.
+Skip it and you'll get "python not found" later.
 
-**2. Give it a key**
-Sign up at [platform.deepseek.com](https://platform.deepseek.com/), create an API key
-(a few dollars lasts a long time), then create `your-home\shared\key.json`:
+**2. Give it a home, and a key**
+
+Make a folder for it, say `C:\feiyu`, with a `shared` folder inside.
+Then **copy** these files from the repo's `examples` folder into `C:\feiyu\shared\`:
+
+```
+persona.md
+life-config.json
+memories.json
+```
+
+(Select, Ctrl+C, Ctrl+V. No commands needed.)
+
+Next, sign up at [platform.deepseek.com](https://platform.deepseek.com/) and create an API key
+(a few dollars lasts a long time). Open Notepad and save `C:\feiyu\shared\key.json` containing just this line:
 
 ```json
 {"key": "sk-your-key"}
 ```
 
 **3. Wake it up**
-Windows: double-click `run-awake.cmd`. Mac/Linux: `python feiyu.py`.
+Back in the repo folder, double-click `run-awake.cmd`.
 
-Before the first run, copy the three template files over (everything's in `examples/`):
+> If a window flashes and disappears, it woke up and went back to sleep — that's normal.
+> Go to step 4 to see what it wrote.
+> Mac / Linux: `python feiyu.py`.
 
-```bash
-cp examples/*.md examples/*.json "$FEIYU_HOME/shared/"
+**4. See how it's doing**
+
+Run `panel.py` (double-click, or `python panel.py`), then open:
+
+```
+http://127.0.0.1:6188
 ```
 
-**To see how it's doing, run `python panel.py`** and open `http://127.0.0.1:6188`.
-That page is read-only and has no buttons. It shows four things: whether it's awake,
-what it wrote today, what you two said recently, and how much it still remembers.
+The page is read-only with no buttons. It shows four things:
+**whether it's awake, what it wrote today, what you two said recently, and how much it still remembers.**
+No digging through folders, no reading logs.
+
+---
+
+### You don't have to do anything on day one
+
+It may write one sentence and go to sleep. That's correct.
+
+If you want to say hi, **drop a "hello" into its inbox** — it'll read it when it next wakes.
+No inbox file yet? Fine. It will get by on its own.
+
+**Don't expect it to be smart out of the box. The first week is mostly it finding its footing;
+it starts feeling real in the second.**
 
 ---
 
