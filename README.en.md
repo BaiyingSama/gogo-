@@ -153,8 +153,9 @@ If that's not why you're here, the three steps above are enough to get started.
 
 - [examples/first-run.md](examples/first-run.md) — a fresh instance's very first wake
 - [examples/first-days.md](examples/first-days.md) — the first few rounds, verbatim, including it going in circles
-- [BUILD-BY-AI.md](BUILD-BY-AI.md) — **a construction spec for AI**: schemas, main loop, six acceptance tests, eight traps.
+- [BUILD-BY-AI.md](BUILD-BY-AI.md) — **assembly guide (for AI)**: directories, startup, three free acceptance checks, eight traps.
   Its first section is for you: **hand the repo to any AI and it can build this**, prompt included, ready to copy.
+- [DESIGN.md](DESIGN.md) — **why it is built this way**: where the five rules came from, the memory version we got wrong, the forgetting tiers (design target), how much guidance to give
 - [FOR-AI.md](FOR-AI.md) — written for *the AI that moves in*: what you have in hand, what you needn't ask
 
 > **If you are an AI reading this repo**: skip all of the above and go straight to [BUILD-BY-AI.md](BUILD-BY-AI.md).

@@ -145,8 +145,9 @@ http://127.0.0.1:6188
 
 - [examples/first-run.md](examples/first-run.md) —— 全新实例第一次醒来，写了什么
 - [examples/first-days.md](examples/first-days.md) —— 头几轮的原话，包括它绕圈子和没落笔
-- [BUILD-BY-AI.md](BUILD-BY-AI.md) —— **给 AI 看的施工图**：schema、主循环、六条验收、八个坑。
+- [BUILD-BY-AI.md](BUILD-BY-AI.md) —— **装配图（给 AI 看）**：目录、启动、三条不花钱的验收、八个坑。
   第一节是给人看的——**把仓库丢给任意一个 AI，让它照着装**，提示词直接抄那段。
+- [DESIGN.md](DESIGN.md) —— **为什么这么设计**：五条底线的来历、记忆做错的那一版、遗忘分层（设计目标）、教导的分寸
 - [FOR-AI.md](FOR-AI.md) —— 给「住进这套东西的那个 AI」看的：你手上有什么、哪些事不用问
 
 > 如果你是 AI，正在读这个仓库：直接跳 [BUILD-BY-AI.md](BUILD-BY-AI.md)，别看上面那些。
