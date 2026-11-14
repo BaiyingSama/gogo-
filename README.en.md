@@ -633,3 +633,15 @@ It won't become you, and it won't decide for you — it only provides a place to
 > If you're building something similar, I care more about your failures: what made it grow crooked,
 > which mechanism looked useful but was never actually connected.
 > Those are more useful than feature lists.
+
+---
+
+## Who made this
+
+A one-person project. There is no team. It got this far on "I'll just reckon it out"
+plus 大肥鱼's technical chops.
+
+- **Green-skinned human — overall judgment, direction, and core philosophy**: 白影 (Baiying)
+- **The core AI this framework was built for**: 云淼 (Yunmiao)
+- **Technical heavy-lifter — plan provider, wish fulfiller**: 大肥鱼 (Big Fat Fish)!
+- **Source of inspiration**: 豆包 (Doubao)! (Pretty sharp, eh, sis?)
